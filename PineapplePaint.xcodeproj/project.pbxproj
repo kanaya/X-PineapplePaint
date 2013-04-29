@@ -18,6 +18,9 @@
 		BFCB2EF5172E306000EDCC88 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFCB2ED2172E306000EDCC88 /* Cocoa.framework */; };
 		BFCB2EFD172E306000EDCC88 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFCB2EFB172E306000EDCC88 /* InfoPlist.strings */; };
 		BFCB2F00172E306000EDCC88 /* PineapplePaintTests.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCB2EFF172E306000EDCC88 /* PineapplePaintTests.m */; };
+		BFCB2F0B172E310300EDCC88 /* PPView.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCB2F0A172E310300EDCC88 /* PPView.m */; };
+		BFCB2F0E172E312B00EDCC88 /* PPViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCB2F0D172E312B00EDCC88 /* PPViewController.m */; };
+		BFCB2F11172E3BEA00EDCC88 /* PPStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = BFCB2F10172E3BEA00EDCC88 /* PPStroke.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,12 @@
 		BFCB2EFC172E306000EDCC88 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BFCB2EFE172E306000EDCC88 /* PineapplePaintTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PineapplePaintTests.h; sourceTree = "<group>"; };
 		BFCB2EFF172E306000EDCC88 /* PineapplePaintTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PineapplePaintTests.m; sourceTree = "<group>"; };
+		BFCB2F09172E310300EDCC88 /* PPView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPView.h; sourceTree = "<group>"; };
+		BFCB2F0A172E310300EDCC88 /* PPView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPView.m; sourceTree = "<group>"; };
+		BFCB2F0C172E312B00EDCC88 /* PPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPViewController.h; sourceTree = "<group>"; };
+		BFCB2F0D172E312B00EDCC88 /* PPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPViewController.m; sourceTree = "<group>"; };
+		BFCB2F0F172E3BEA00EDCC88 /* PPStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPStroke.h; sourceTree = "<group>"; };
+		BFCB2F10172E3BEA00EDCC88 /* PPStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPStroke.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +125,12 @@
 		BFCB2ED8172E306000EDCC88 /* PineapplePaint */ = {
 			isa = PBXGroup;
 			children = (
+				BFCB2F0F172E3BEA00EDCC88 /* PPStroke.h */,
+				BFCB2F10172E3BEA00EDCC88 /* PPStroke.m */,
+				BFCB2F09172E310300EDCC88 /* PPView.h */,
+				BFCB2F0A172E310300EDCC88 /* PPView.m */,
+				BFCB2F0C172E312B00EDCC88 /* PPViewController.h */,
+				BFCB2F0D172E312B00EDCC88 /* PPViewController.m */,
 				BFCB2EE4172E306000EDCC88 /* PPDocument.h */,
 				BFCB2EE5172E306000EDCC88 /* PPDocument.m */,
 				BFCB2EE7172E306000EDCC88 /* PPDocument.xib */,
@@ -268,6 +283,9 @@
 			files = (
 				BFCB2EDF172E306000EDCC88 /* main.m in Sources */,
 				BFCB2EE6172E306000EDCC88 /* PPDocument.m in Sources */,
+				BFCB2F0B172E310300EDCC88 /* PPView.m in Sources */,
+				BFCB2F0E172E312B00EDCC88 /* PPViewController.m in Sources */,
+				BFCB2F11172E3BEA00EDCC88 /* PPStroke.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
