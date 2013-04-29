@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 Pineapple.cc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "PPView.h"
 #import "PPStroke.h"
 
@@ -13,7 +14,9 @@
 @property NSMutableArray *strokes;
 @end
 
-@implementation PPView
+@implementation PPView {
+  CALayer *backgroundLayer;
+}
 
 #pragma mark - Init Methods
 
@@ -21,18 +24,43 @@
   self = [super initWithFrame: frame];
   if (self) {
     _strokes = [NSMutableArray array];
+    backgroundLayer = [CALayer layer];
+    CGColorRef white = CGColorCreateGenericGray(1.0f, 1.0f);
+    backgroundLayer.backgroundColor = white;
+    CGColorRelease(white);
+    backgroundLayer.delegate = self;
+    [self setLayer: backgroundLayer];
+    [self setWantsLayer: YES];
   }
   return self;
 }
 
-#pragma mark - Public Methods
+#pragma mark - Private Methods
 
-- (void)drawRect: (NSRect)rect {
+- (void)draw: (NSRect)rect {
   [[NSColor whiteColor] set];
   NSRectFill(rect);
   
   [self.strokes enumerateObjectsUsingBlock:
    ^(PPStroke *stroke, NSUInteger index, BOOL *stop) { [stroke draw]; }];
+}
+
+#pragma mark - Public Methods
+
+// - (void)drawRect: (NSRect)rect {
+//   [self draw: rect];
+// }
+
+- (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
+  NSGraphicsContext *nsGraphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort: context
+                                                                                    flipped: NO];
+  [NSGraphicsContext saveGraphicsState];
+  [NSGraphicsContext setCurrentContext: nsGraphicsContext];
+  
+  NSRect rect = self.frame;
+  [self draw: rect];
+  
+  [NSGraphicsContext restoreGraphicsState];
 }
 
 #pragma mark - Mouse Event Methods
@@ -42,7 +70,8 @@
                                      fromView: nil];
   PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView];
   [self.strokes addObject: newStroke];
-  [self setNeedsDisplay: YES];
+  // [self setNeedsDisplay: YES];
+  [backgroundLayer setNeedsDisplay];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
@@ -50,7 +79,8 @@
                                      fromView: nil];
   PPStroke *currentStroke = [self.strokes lastObject];
   [currentStroke addPoint: locationInView];
-  [self setNeedsDisplay: YES];
+  // [self setNeedsDisplay: YES];
+  [backgroundLayer setNeedsDisplay];
 }
 
 #pragma mark - NSView display optimization
