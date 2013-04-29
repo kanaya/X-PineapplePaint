@@ -8,7 +8,11 @@
 
 #import "PPStroke.h"
 
-@implementation PPStroke
+@implementation PPStroke {
+  NSMutableArray *_times;
+  NSDate *_lastTime;
+  NSPoint _lastPoint;
+}
 
 #pragma mark - Init Methods
 
@@ -16,8 +20,11 @@
   self = [super init];
   if (self) {
     _path = [NSBezierPath bezierPath];
-    
-    [_path moveToPoint: initialPoint];
+    _lastPoint = initialPoint;
+    [_path moveToPoint: _lastPoint];
+    _times = [NSMutableArray arrayWithCapacity: 1000];
+    _lastTime = [NSDate date];
+    [_times addObject: _lastTime];
   }
   return self;
 }
@@ -25,7 +32,10 @@
 #pragma mark - Public Methods
 
 - (void)addPoint: (NSPoint)point {
-  [self.path lineToPoint: point];
+  _lastPoint = point;
+  _lastTime = [NSDate date];
+  [self.path lineToPoint: _lastPoint];
+  [_times addObject: _lastTime];
 }
 
 - (void)draw {

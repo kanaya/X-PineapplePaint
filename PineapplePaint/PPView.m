@@ -10,10 +10,6 @@
 #import "PPView.h"
 #import "PPStroke.h"
 
-@interface PPView ()
-@property NSMutableArray *strokes;
-@end
-
 @implementation PPView {
   CALayer *backgroundLayer;
 }
