@@ -13,4 +13,5 @@
 - (id)initWithInitialPoint: (NSPoint)initialPoint;
 - (void)addPoint: (NSPoint)point;
 - (void)draw;
+- (void)drawPath;
 @end
