@@ -38,7 +38,10 @@
   NSRectFill(rect);
   
   [self.strokes enumerateObjectsUsingBlock:
-   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) { [stroke draw]; }];
+   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
+     [stroke draw];
+     [stroke drawPath];
+   }];
 }
 
 #pragma mark - Public Methods
