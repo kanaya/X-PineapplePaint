@@ -40,12 +40,13 @@
   [self.strokes enumerateObjectsUsingBlock:
    ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
      [stroke draw];
-     [stroke drawPath];
    }];
 }
 
 #pragma mark - Public Methods
 
+// For non-CA drawing
+//
 // - (void)drawRect: (NSRect)rect {
 //   [self draw: rect];
 // }
@@ -60,6 +61,13 @@
   [self draw: rect];
   
   [NSGraphicsContext restoreGraphicsState];
+}
+
+-(void)writeStrokeToFile: (FILE *)fout {
+  [self.strokes enumerateObjectsUsingBlock:
+   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
+     [stroke writeStrokeToFile: fout];
+   }];
 }
 
 #pragma mark - Mouse Event Methods

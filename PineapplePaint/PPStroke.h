@@ -13,5 +13,6 @@
 - (id)initWithInitialPoint: (NSPoint)initialPoint;
 - (void)addPoint: (NSPoint)point;
 - (void)draw;
-- (void)drawPath;
+- (void)drawVelocity;
+- (void)writeStrokeToFile: (FILE *)fout;
 @end

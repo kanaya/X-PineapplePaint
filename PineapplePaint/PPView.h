@@ -14,4 +14,6 @@
 
 @property NSMutableArray *strokes;
 
+-(void)writeStrokeToFile: (FILE *)fout;
+
 @end

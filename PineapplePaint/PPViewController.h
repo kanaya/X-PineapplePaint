@@ -12,4 +12,8 @@
   IBOutlet NSView *_view;
 }
 
+- (IBAction)writeStrokes: (id)sender;
+
+- (void)writeStrokesToFilename: (NSString *)filename;
+
 @end

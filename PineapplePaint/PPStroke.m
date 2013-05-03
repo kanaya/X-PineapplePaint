@@ -56,7 +56,7 @@ static CGFloat distance(NSPoint a, NSPoint b) {
   [self.path stroke];
 }
 
-- (void)drawPath {
+- (void)drawVelocity {
   // for (id point in _points) {
   NSEnumerator *pointEnumerator = [_points objectEnumerator];
   NSValue *point;
@@ -69,5 +69,37 @@ static CGFloat distance(NSPoint a, NSPoint b) {
     p0 = p;
   }
 }
+
+- (void)writeStrokeToFile: (FILE *)fout {
+  NSUInteger n_points = [_points count];
+  for (NSUInteger i = 0; i < n_points; ++i) {
+    NSPoint p = [[_points objectAtIndex: i] pointValue];
+    NSDate *d = [_times objectAtIndex: i];
+    NSTimeInterval t = [d timeIntervalSinceReferenceDate];
+    NSString *stringToWrite = [NSString stringWithFormat: @"%f %f %f\n", t, p.x, p.y];
+    const char *stringToWriteInCStyle = [stringToWrite UTF8String];
+    fputs(stringToWriteInCStyle, fout);
+  }
+  fputs("\n", fout);
+}
+
+// BAD APPROACH!! WHEN MULTIPLE STROKES EXIST, WE CANNOT SWITCH DELEGATE FROM THIS TO THAT...
+- (void)stream: (NSStream *)stream handleEvent: (NSStreamEvent)eventCode {
+  if (eventCode == NSStreamEventHasSpaceAvailable) {
+    NSOutputStream *outputStream = (NSOutputStream *)stream;
+    NSUInteger n_points = [_points count];
+    for (NSUInteger i = 0; i < n_points; ++i) {
+      NSPoint p = [[_points objectAtIndex: i] pointValue];
+      NSDate *d = [_times objectAtIndex: i];
+      NSTimeInterval t = [d timeIntervalSinceReferenceDate];
+      NSString *stringToWrite = [NSString stringWithFormat: @"%f %f %f\n", t, p.x, p.y];
+      NSUInteger lengthToWrite = [stringToWrite length];
+      const char *stringToWriteInCStyle = [stringToWrite UTF8String];
+      NSUInteger writtenLength = [outputStream write: (const uint8_t *)stringToWriteInCStyle
+                                           maxLength: lengthToWrite];
+    }
+  }
+}
+
 
 @end
