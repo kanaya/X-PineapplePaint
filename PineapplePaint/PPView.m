@@ -35,10 +35,11 @@
 
 - (void)drawContext: (CGContextRef)context {
   for (PPStroke *stroke in self.strokes) {
-    for (NSValue *value in stroke.points) {
-      NSPoint point = value.pointValue;
-      CGContextSetRGBFillColor(context, 0, 0, 0, 1);
-      CGContextFillRect(context, CGRectMake(point.x - 2, point.y - 2, 4, 4));
+    for (PPPointAndPressure *pp in stroke.pointsAndPressures) {
+      CGPoint p = pp.point;
+      CGFloat r = pp.pressure;
+      CGContextSetRGBFillColor(context, 0, 0, 0, r);
+      CGContextFillRect(context, CGRectMake(p.x - 2, p.y - 2, 4, 4));
     }
   }
 }

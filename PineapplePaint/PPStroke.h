@@ -7,14 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PPPointAndPressure.h"
 
 @interface PPStroke: NSObject
-@property NSBezierPath *path;
-@property NSMutableArray *points;
-@property NSMutableArray *pressures;
-- (id)initWithInitialPoint: (NSPoint)initialPoint pressure: (CGFloat)initialPressure;
-- (void)addPoint: (NSPoint)point pressure: (CGFloat)pressure;
-- (void)draw;
-- (void)drawVelocity;
+@property NSMutableArray *pointsAndPressures;
+- (id)initWithInitialPoint: (CGPoint)initialPoint pressure: (CGFloat)initialPressure;
+- (void)addPoint: (CGPoint)point pressure: (CGFloat)pressure;
 - (void)writeStrokeToFile: (FILE *)fout;
 @end
