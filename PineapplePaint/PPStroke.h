@@ -10,9 +10,9 @@
 
 @interface PPStroke: NSObject
 @property NSBezierPath *path;
-- (id)initWithInitialPoint: (NSPoint)initialPoint;
+@property NSMutableArray *points;
+@property NSMutableArray *pressures;
 - (id)initWithInitialPoint: (NSPoint)initialPoint pressure: (CGFloat)initialPressure;
-- (void)addPoint: (NSPoint)point;
 - (void)addPoint: (NSPoint)point pressure: (CGFloat)pressure;
 - (void)draw;
 - (void)drawVelocity;
