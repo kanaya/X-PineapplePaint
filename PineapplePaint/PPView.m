@@ -33,13 +33,24 @@
 
 #pragma mark - Private Methods
 
-- (void)drawContext: (CGContextRef)context {
+- (void)drawInContext: (CGContextRef)context {
   for (PPStroke *stroke in self.strokes) {
-    for (PPPointAndPressure *pp in stroke.pointsAndPressures) {
-      CGPoint p = pp.point;
-      CGFloat r = pp.pressure;
-      CGContextSetRGBFillColor(context, 0, 0, 0, r);
-      CGContextFillRect(context, CGRectMake(p.x - 2, p.y - 2, 4, 4));
+    NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
+    PPPointAndPressure *pointAndPressure = enumerator.nextObject;
+    while (pointAndPressure) {
+      PPPointAndPressure *nextPointAndPressure = [enumerator nextObject];
+      if (nextPointAndPressure) {
+        CGPoint p1 = pointAndPressure.point;
+        CGFloat r1 = pointAndPressure.pressure;
+        CGPoint p2 = nextPointAndPressure.point;
+        CGFloat r2 = nextPointAndPressure.pressure;
+        CGContextBeginPath(context);
+        CGContextMoveToPoint(context, p1.x, p1.y);
+        CGContextAddLineToPoint(context, p2.x, p2.y);
+        CGContextSetRGBStrokeColor(context, 0, 0, 0, (r1 + r2) / 2.0);
+        CGContextStrokePath(context);
+      }
+      pointAndPressure = nextPointAndPressure;
     }
   }
 }
@@ -47,7 +58,7 @@
 #pragma mark - Public Methods
 
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
-  [self drawContext: context];
+  [self drawInContext: context];
 }
 
 -(void)writeStrokeToFile: (FILE *)fout {
