@@ -33,34 +33,21 @@
 
 #pragma mark - Private Methods
 
-- (void)draw: (NSRect)rect {
-  [[NSColor whiteColor] set];
-  NSRectFill(rect);
-  
-  [self.strokes enumerateObjectsUsingBlock:
-   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
-     [stroke draw];
-   }];
+- (void)drawContext: (CGContextRef)context {
+  for (PPStroke *stroke in self.strokes) {
+    for (PPPointAndPressure *pp in stroke.pointsAndPressures) {
+      CGPoint p = pp.point;
+      CGFloat r = pp.pressure;
+      CGContextSetRGBFillColor(context, 0, 0, 0, r);
+      CGContextFillRect(context, CGRectMake(p.x - 2, p.y - 2, 4, 4));
+    }
+  }
 }
 
 #pragma mark - Public Methods
 
-// For non-CA drawing
-//
-// - (void)drawRect: (NSRect)rect {
-//   [self draw: rect];
-// }
-
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
-  NSGraphicsContext *nsGraphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort: context
-                                                                                    flipped: NO];
-  [NSGraphicsContext saveGraphicsState];
-  [NSGraphicsContext setCurrentContext: nsGraphicsContext];
-  
-  NSRect rect = self.frame;
-  [self draw: rect];
-  
-  [NSGraphicsContext restoreGraphicsState];
+  [self drawContext: context];
 }
 
 -(void)writeStrokeToFile: (FILE *)fout {
@@ -75,7 +62,9 @@
 - (void)mouseDown: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
-  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView];
+  CGFloat pressure = (CGFloat)event.pressure;
+  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
+                                                      pressure: pressure];
   [self.strokes addObject: newStroke];
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
@@ -84,8 +73,9 @@
 - (void)mouseDragged: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
+  CGFloat pressure = (CGFloat)event.pressure;
   PPStroke *currentStroke = [self.strokes lastObject];
-  [currentStroke addPoint: locationInView];
+  [currentStroke addPoint: locationInView pressure: pressure];
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
 }

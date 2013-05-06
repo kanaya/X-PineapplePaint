@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BF7465EE1737D3780082119D /* PPPointAndPressure.m in Sources */ = {isa = PBXBuildFile; fileRef = BF7465ED1737D3780082119D /* PPPointAndPressure.m */; };
 		BF9FB515172E7BF400235BE5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF9FB514172E7BF400235BE5 /* QuartzCore.framework */; };
 		BFCB2ED3172E306000EDCC88 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFCB2ED2172E306000EDCC88 /* Cocoa.framework */; };
 		BFCB2EDD172E306000EDCC88 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFCB2EDB172E306000EDCC88 /* InfoPlist.strings */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BF7465EC1737D3780082119D /* PPPointAndPressure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPPointAndPressure.h; sourceTree = "<group>"; };
+		BF7465ED1737D3780082119D /* PPPointAndPressure.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PPPointAndPressure.m; sourceTree = "<group>"; };
 		BF9FB514172E7BF400235BE5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = ../../../../../System/Library/Frameworks/QuartzCore.framework; sourceTree = "<group>"; };
 		BFCB2ECF172E306000EDCC88 /* PineapplePaint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PineapplePaint.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFCB2ED2172E306000EDCC88 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -129,6 +132,8 @@
 		BFCB2ED8172E306000EDCC88 /* PineapplePaint */ = {
 			isa = PBXGroup;
 			children = (
+				BF7465EC1737D3780082119D /* PPPointAndPressure.h */,
+				BF7465ED1737D3780082119D /* PPPointAndPressure.m */,
 				BFCB2F0F172E3BEA00EDCC88 /* PPStroke.h */,
 				BFCB2F10172E3BEA00EDCC88 /* PPStroke.m */,
 				BFCB2F09172E310300EDCC88 /* PPView.h */,
@@ -290,6 +295,7 @@
 				BFCB2F0B172E310300EDCC88 /* PPView.m in Sources */,
 				BFCB2F0E172E312B00EDCC88 /* PPViewController.m in Sources */,
 				BFCB2F11172E3BEA00EDCC88 /* PPStroke.m in Sources */,
+				BF7465EE1737D3780082119D /* PPPointAndPressure.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
