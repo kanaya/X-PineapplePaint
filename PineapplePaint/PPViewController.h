@@ -10,6 +10,7 @@
 
 @interface PPViewController: NSObject {
   IBOutlet NSView *_view;
+  IBOutlet NSDocument *_document;
 }
 
 - (IBAction)writeStrokes: (id)sender;

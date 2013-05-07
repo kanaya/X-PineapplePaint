@@ -9,6 +9,7 @@
 #import "PPViewController.h"
 #import "PPView.h"
 #import "PPStroke.h"
+#import "PPDocument.h"
 
 @implementation PPViewController
 

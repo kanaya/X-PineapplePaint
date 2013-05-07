@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PPDocument: NSDocument
+@interface PPDocument: NSDocument {
+  IBOutlet NSObject *_viewController;
+}
+@property NSMutableArray *strokes;  // new
 
 @end

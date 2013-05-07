@@ -9,9 +9,10 @@
 #import <QuartzCore/QuartzCore.h>
 #import "PPView.h"
 #import "PPStroke.h"
+#import "PPPointAndPressure.h"
 
 @implementation PPView {
-  CALayer *backgroundLayer;
+  CALayer *backgroundLayer;  // should be anonymous category
 }
 
 #pragma mark - Init Methods
