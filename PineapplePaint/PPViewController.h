@@ -15,8 +15,4 @@
 
 - (NSDocument *)document;
 
-- (IBAction)writeStrokes: (id)sender;
-
-- (void)writeStrokesToFilename: (NSString *)filename;
-
 @end
