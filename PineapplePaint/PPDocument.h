@@ -11,6 +11,6 @@
 @interface PPDocument: NSDocument {
   IBOutlet NSObject *_viewController;
 }
-@property NSMutableArray *strokes;  // new
+@property NSMutableArray *strokes;
 
 @end
