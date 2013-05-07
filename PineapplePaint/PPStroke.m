@@ -8,6 +8,7 @@
 
 #import <math.h>
 #import "PPStroke.h"
+#import "PPPointAndPressure.h"
 
 static CGFloat distance(CGPoint a, CGPoint b) {
   CGFloat dx = a.x - b.x;

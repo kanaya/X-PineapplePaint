@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PPPointAndPressure.h"
 
 @interface PPStroke: NSObject
 @property NSMutableArray *pointsAndPressures;

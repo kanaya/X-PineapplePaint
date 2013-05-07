@@ -8,10 +8,13 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "PPView.h"
+#import "PPViewController.h"
+#import "PPDocument.h"
 #import "PPStroke.h"
+#import "PPPointAndPressure.h"
 
 @implementation PPView {
-  CALayer *backgroundLayer;
+  CALayer *backgroundLayer;  // should be anonymous category
 }
 
 #pragma mark - Init Methods
@@ -19,7 +22,7 @@
 - (id)initWithFrame: (NSRect)frame {
   self = [super initWithFrame: frame];
   if (self) {
-    _strokes = [NSMutableArray array];
+    // _strokes = [NSMutableArray array]; // removed
     backgroundLayer = [CALayer layer];
     CGColorRef white = CGColorCreateGenericGray(1.0f, 1.0f);
     backgroundLayer.backgroundColor = white;
@@ -34,7 +37,9 @@
 #pragma mark - Private Methods
 
 - (void)drawInContext: (CGContextRef)context {
-  for (PPStroke *stroke in self.strokes) {
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
+  for (PPStroke *stroke in doc.strokes) {  // changed
     NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
     PPPointAndPressure *pointAndPressure = enumerator.nextObject;
     while (pointAndPressure) {
@@ -61,12 +66,12 @@
   [self drawInContext: context];
 }
 
--(void)writeStrokeToFile: (FILE *)fout {
-  [self.strokes enumerateObjectsUsingBlock:
-   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
-     [stroke writeStrokeToFile: fout];
-   }];
-}
+// -(void)writeStrokeToFile: (FILE *)fout {  // remove this method
+//   [self.strokes enumerateObjectsUsingBlock:
+//    ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
+//      [stroke writeStrokeToFile: fout];
+//    }];
+// }
 
 #pragma mark - Mouse Event Methods
 
@@ -74,9 +79,12 @@
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
   CGFloat pressure = (CGFloat)event.pressure;
+  
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
   PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
                                                       pressure: pressure];
-  [self.strokes addObject: newStroke];
+  [doc.strokes addObject: newStroke];  // changed
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
 }
@@ -85,7 +93,10 @@
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
   CGFloat pressure = (CGFloat)event.pressure;
-  PPStroke *currentStroke = [self.strokes lastObject];
+  
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
+  PPStroke *currentStroke = [doc.strokes lastObject];  // changed
   [currentStroke addPoint: locationInView pressure: pressure];
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
