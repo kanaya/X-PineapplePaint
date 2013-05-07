@@ -40,7 +40,8 @@
     for (PPPointAndPressure *pp in stroke.pointsAndPressures) {
       CGPoint p = pp.point;
       CGFloat r = pp.pressure;
-      fprintf(f, "%f %f %f\n", p.x, p.y, r);  // WE NEED DATES
+      NSTimeInterval t = pp.date;
+      fprintf(f, "%f %f %f %f\n", t, p.x, p.y, r);
     }
     fputc('\n', f);
   }

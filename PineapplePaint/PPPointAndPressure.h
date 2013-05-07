@@ -11,7 +11,10 @@
 @interface PPPointAndPressure: NSObject
 @property CGPoint point;
 @property CGFloat pressure;
+@property NSTimeInterval date;
 
-- (id)initWithPoint: (CGPoint)initialPoint pressure: (CGFloat)initialPressure;
+- (id)initWithPoint: (CGPoint)initialPoint
+           pressure: (CGFloat)initialPressure
+               date: (NSTimeInterval)initialDate;
 
 @end
