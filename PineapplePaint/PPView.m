@@ -33,33 +33,39 @@
 
 #pragma mark - Private Methods
 
-- (void)draw: (NSRect)rect {
-  [[NSColor whiteColor] set];
-  NSRectFill(rect);
-  
-  [self.strokes enumerateObjectsUsingBlock:
-   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
-     [stroke draw];
-     [stroke drawPath];
-   }];
+- (void)drawInContext: (CGContextRef)context {
+  for (PPStroke *stroke in self.strokes) {
+    NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
+    PPPointAndPressure *pointAndPressure = enumerator.nextObject;
+    while (pointAndPressure) {
+      PPPointAndPressure *nextPointAndPressure = [enumerator nextObject];
+      if (nextPointAndPressure) {
+        CGPoint p1 = pointAndPressure.point;
+        CGFloat r1 = pointAndPressure.pressure;
+        CGPoint p2 = nextPointAndPressure.point;
+        CGFloat r2 = nextPointAndPressure.pressure;
+        CGContextBeginPath(context);
+        CGContextMoveToPoint(context, p1.x, p1.y);
+        CGContextAddLineToPoint(context, p2.x, p2.y);
+        CGContextSetRGBStrokeColor(context, 0, 0, 0, (r1 + r2) / 2.0);
+        CGContextStrokePath(context);
+      }
+      pointAndPressure = nextPointAndPressure;
+    }
+  }
 }
 
 #pragma mark - Public Methods
 
-// - (void)drawRect: (NSRect)rect {
-//   [self draw: rect];
-// }
-
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
-  NSGraphicsContext *nsGraphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort: context
-                                                                                    flipped: NO];
-  [NSGraphicsContext saveGraphicsState];
-  [NSGraphicsContext setCurrentContext: nsGraphicsContext];
-  
-  NSRect rect = self.frame;
-  [self draw: rect];
-  
-  [NSGraphicsContext restoreGraphicsState];
+  [self drawInContext: context];
+}
+
+-(void)writeStrokeToFile: (FILE *)fout {
+  [self.strokes enumerateObjectsUsingBlock:
+   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
+     [stroke writeStrokeToFile: fout];
+   }];
 }
 
 #pragma mark - Mouse Event Methods
@@ -67,7 +73,9 @@
 - (void)mouseDown: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
-  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView];
+  CGFloat pressure = (CGFloat)event.pressure;
+  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
+                                                      pressure: pressure];
   [self.strokes addObject: newStroke];
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
@@ -76,8 +84,9 @@
 - (void)mouseDragged: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
+  CGFloat pressure = (CGFloat)event.pressure;
   PPStroke *currentStroke = [self.strokes lastObject];
-  [currentStroke addPoint: locationInView];
+  [currentStroke addPoint: locationInView pressure: pressure];
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
 }

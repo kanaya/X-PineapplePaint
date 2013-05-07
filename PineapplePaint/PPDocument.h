@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface PPDocument : NSDocument
+@interface PPDocument: NSDocument
 
 @end
