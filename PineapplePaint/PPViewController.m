@@ -13,20 +13,24 @@
 
 @implementation PPViewController
 
-- (IBAction)writeStrokes: (id)sendor {
-  NSString *filename = [@"~/PineapplePaintOut.txt" stringByExpandingTildeInPath];
-  [self writeStrokesToFilename: filename];
+- (NSDocument *)document {
+  return _document;
 }
 
-- (void)writeStrokesToFilename: (NSString *)filename {
-  const char *filenameInCStyle = [filename UTF8String];
-  FILE *fout = fopen(filenameInCStyle, "w");
-  // is fout opened collectrly?
-  PPView *v = (PPView *)_view;
-  for (PPStroke *s in v.strokes) {
-    [s writeStrokeToFile: fout];
-  }
-  fclose(fout);
-}
+// - (IBAction)writeStrokes: (id)sendor {
+//   NSString *filename = [@"~/PineapplePaintOut.txt" stringByExpandingTildeInPath];
+//   [self writeStrokesToFilename: filename];
+// }
+
+// - (void)writeStrokesToFilename: (NSString *)filename {
+//   const char *filenameInCStyle = [filename UTF8String];
+//  FILE *fout = fopen(filenameInCStyle, "w");
+//   // is fout opened collectrly?
+//   PPView *v = (PPView *)_view;
+//   for (PPStroke *s in v.strokes) {
+//     [s writeStrokeToFile: fout];
+//   }
+//   fclose(fout);
+// }
 
 @end

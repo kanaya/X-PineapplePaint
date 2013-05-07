@@ -13,6 +13,8 @@
   IBOutlet NSDocument *_document;
 }
 
+- (NSDocument *)document;
+
 - (IBAction)writeStrokes: (id)sender;
 
 - (void)writeStrokesToFilename: (NSString *)filename;
