@@ -13,21 +13,23 @@
 #import "PPStroke.h"
 #import "PPPointAndPressure.h"
 
-@implementation PPView {
-  CALayer *backgroundLayer;  // should be anonymous category
-}
+@interface PPView ()
+@property CALayer *backgroundLayer;
+@end
+
+@implementation PPView
 
 #pragma mark - Init Methods
 
 - (id)initWithFrame: (NSRect)frame {
   self = [super initWithFrame: frame];
   if (self) {
-    backgroundLayer = [CALayer layer];
+    _backgroundLayer = [CALayer layer];
     CGColorRef white = CGColorCreateGenericGray(1.0f, 1.0f);
-    backgroundLayer.backgroundColor = white;
+    _backgroundLayer.backgroundColor = white;
     CGColorRelease(white);
-    backgroundLayer.delegate = self;
-    [self setLayer: backgroundLayer];
+    _backgroundLayer.delegate = self;
+    [self setLayer: _backgroundLayer];
     [self setWantsLayer: YES];
   }
   return self;
@@ -65,6 +67,11 @@
   [self drawInContext: context];
 }
 
+- (void)requestRedraw {
+  NSLog(@"Redraw");
+  [self.backgroundLayer setNeedsDisplay];
+}
+
 #pragma mark - Mouse Event Methods
 
 - (void)mouseDown: (NSEvent *)event {
@@ -75,12 +82,12 @@
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
-                                                      pressure: pressure
-                                                          date: [now timeIntervalSinceReferenceDate]];
-  [doc.strokes addObject: newStroke];  // changed
-  // [self setNeedsDisplay: YES];
-  [backgroundLayer setNeedsDisplay];
+  PPStroke *newStroke = [[PPStroke alloc] init];
+  [newStroke addPointAndPressure: [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                                                   pressure: pressure
+                                                                       date: [now timeIntervalSinceReferenceDate]]];
+  [doc.strokes addObject: newStroke];
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
@@ -91,12 +98,11 @@
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  PPStroke *currentStroke = [doc.strokes lastObject];  // changed
-  [currentStroke addPoint: locationInView
-                 pressure: pressure
-                     date: [now timeIntervalSinceReferenceDate]];
-  // [self setNeedsDisplay: YES];
-  [backgroundLayer setNeedsDisplay];
+  PPStroke *currentStroke = [doc.strokes lastObject];
+  [currentStroke addPointAndPressure: [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                                                       pressure: pressure
+                                                                           date: [now timeIntervalSinceReferenceDate]]];
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 #pragma mark - NSView display optimization

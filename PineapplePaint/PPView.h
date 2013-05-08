@@ -12,4 +12,6 @@
   IBOutlet NSObject *_viewController;
 }
 
+- (void)requestRedraw;
+
 @end
