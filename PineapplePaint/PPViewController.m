@@ -18,7 +18,6 @@
 }
 
 - (void)requestRedraw {
-  NSLog(@"Forwarding");
   [(PPView *)_view requestRedraw];
 }
 
