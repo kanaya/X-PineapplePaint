@@ -10,11 +10,12 @@
 
 @implementation PPPointAndPressure
 
-- (id)initWithPoint: (CGPoint)initialPoint pressure: (CGFloat)initialPressure {
+- (id)initWithPoint: (CGPoint)initialPoint pressure: (CGFloat)initialPressure date: (NSTimeInterval)initialDate {
   self = [super init];
   if (self) {
     _point = initialPoint;
     _pressure = initialPressure;
+    _date = initialDate;
   }
   return self;
 }

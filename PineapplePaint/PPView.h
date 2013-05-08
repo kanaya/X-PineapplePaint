@@ -12,8 +12,4 @@
   IBOutlet NSObject *_viewController;
 }
 
-// @property NSMutableArray *strokes;  // all methosds should access to viewController.document.strokes
-
-// -(void)writeStrokeToFile: (FILE *)fout;  // to be moved to doc
-
 @end

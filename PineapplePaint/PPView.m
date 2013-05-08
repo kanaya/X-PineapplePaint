@@ -22,7 +22,6 @@
 - (id)initWithFrame: (NSRect)frame {
   self = [super initWithFrame: frame];
   if (self) {
-    // _strokes = [NSMutableArray array]; // removed
     backgroundLayer = [CALayer layer];
     CGColorRef white = CGColorCreateGenericGray(1.0f, 1.0f);
     backgroundLayer.backgroundColor = white;
@@ -39,7 +38,7 @@
 - (void)drawInContext: (CGContextRef)context {
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  for (PPStroke *stroke in doc.strokes) {  // changed
+  for (PPStroke *stroke in doc.strokes) {
     NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
     PPPointAndPressure *pointAndPressure = enumerator.nextObject;
     while (pointAndPressure) {
@@ -66,24 +65,19 @@
   [self drawInContext: context];
 }
 
-// -(void)writeStrokeToFile: (FILE *)fout {  // remove this method
-//   [self.strokes enumerateObjectsUsingBlock:
-//    ^(PPStroke *stroke, NSUInteger index, BOOL *stop) {
-//      [stroke writeStrokeToFile: fout];
-//    }];
-// }
-
 #pragma mark - Mouse Event Methods
 
 - (void)mouseDown: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
   CGFloat pressure = (CGFloat)event.pressure;
+  NSDate *now = [NSDate date];
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
   PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
-                                                      pressure: pressure];
+                                                      pressure: pressure
+                                                          date: [now timeIntervalSinceReferenceDate]];
   [doc.strokes addObject: newStroke];  // changed
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
@@ -93,11 +87,14 @@
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
   CGFloat pressure = (CGFloat)event.pressure;
+  NSDate *now = [NSDate date];
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
   PPStroke *currentStroke = [doc.strokes lastObject];  // changed
-  [currentStroke addPoint: locationInView pressure: pressure];
+  [currentStroke addPoint: locationInView
+                 pressure: pressure
+                     date: [now timeIntervalSinceReferenceDate]];
   // [self setNeedsDisplay: YES];
   [backgroundLayer setNeedsDisplay];
 }
