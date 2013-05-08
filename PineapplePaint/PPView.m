@@ -68,7 +68,6 @@
 }
 
 - (void)requestRedraw {
-  NSLog(@"Redraw");
   [self.backgroundLayer setNeedsDisplay];
 }
 
