@@ -13,8 +13,12 @@
 #import "PPStroke.h"
 #import "PPPointAndPressure.h"
 
+@interface PPView ()
+@property CALayer *backgroundLayer;
+@end
+
 @implementation PPView {
-  CALayer *backgroundLayer;  // should be anonymous category
+//   CALayer *backgroundLayer;  // should be anonymous category
 }
 
 #pragma mark - Init Methods
@@ -22,12 +26,12 @@
 - (id)initWithFrame: (NSRect)frame {
   self = [super initWithFrame: frame];
   if (self) {
-    backgroundLayer = [CALayer layer];
+    _backgroundLayer = [CALayer layer];
     CGColorRef white = CGColorCreateGenericGray(1.0f, 1.0f);
-    backgroundLayer.backgroundColor = white;
+    _backgroundLayer.backgroundColor = white;
     CGColorRelease(white);
-    backgroundLayer.delegate = self;
-    [self setLayer: backgroundLayer];
+    _backgroundLayer.delegate = self;
+    [self setLayer: _backgroundLayer];
     [self setWantsLayer: YES];
   }
   return self;
@@ -80,7 +84,7 @@
                                                           date: [now timeIntervalSinceReferenceDate]];
   [doc.strokes addObject: newStroke];  // changed
   // [self setNeedsDisplay: YES];
-  [backgroundLayer setNeedsDisplay];
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
@@ -96,7 +100,7 @@
                  pressure: pressure
                      date: [now timeIntervalSinceReferenceDate]];
   // [self setNeedsDisplay: YES];
-  [backgroundLayer setNeedsDisplay];
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 #pragma mark - NSView display optimization
