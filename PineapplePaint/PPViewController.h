@@ -10,6 +10,9 @@
 
 @interface PPViewController: NSObject {
   IBOutlet NSView *_view;
+  IBOutlet NSDocument *_document;
 }
+
+- (NSDocument *)document;
 
 @end

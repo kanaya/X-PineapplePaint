@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface PPStroke: NSObject
-@property NSBezierPath *path;
-- (id)initWithInitialPoint: (NSPoint)initialPoint;
-- (void)addPoint: (NSPoint)point;
-- (void)draw;
+@property NSMutableArray *pointsAndPressures;
+- (id)initWithInitialPoint: (CGPoint)initialPoint
+                  pressure: (CGFloat)initialPressure
+                      date: (NSTimeInterval)initialDate;
+- (void)addPoint: (CGPoint)point pressure: (CGFloat)pressure date: (NSTimeInterval)date;
 @end
