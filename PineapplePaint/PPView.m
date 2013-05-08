@@ -67,6 +67,11 @@
   [self drawInContext: context];
 }
 
+- (void)requestRedraw {
+  NSLog(@"Redraw");
+  [self.backgroundLayer setNeedsDisplay];
+}
+
 #pragma mark - Mouse Event Methods
 
 - (void)mouseDown: (NSEvent *)event {
