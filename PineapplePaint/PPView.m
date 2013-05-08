@@ -6,33 +6,67 @@
 //  Copyright (c) 2013 Pineapple.cc. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "PPView.h"
+#import "PPViewController.h"
+#import "PPDocument.h"
 #import "PPStroke.h"
+#import "PPPointAndPressure.h"
 
 @interface PPView ()
-@property NSMutableArray *strokes;
+@property CALayer *backgroundLayer;
 @end
 
-@implementation PPView
+@implementation PPView {
+//   CALayer *backgroundLayer;  // should be anonymous category
+}
 
 #pragma mark - Init Methods
 
 - (id)initWithFrame: (NSRect)frame {
   self = [super initWithFrame: frame];
   if (self) {
-    _strokes = [NSMutableArray array];
+    _backgroundLayer = [CALayer layer];
+    CGColorRef white = CGColorCreateGenericGray(1.0f, 1.0f);
+    _backgroundLayer.backgroundColor = white;
+    CGColorRelease(white);
+    _backgroundLayer.delegate = self;
+    [self setLayer: _backgroundLayer];
+    [self setWantsLayer: YES];
   }
   return self;
 }
 
+#pragma mark - Private Methods
+
+- (void)drawInContext: (CGContextRef)context {
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
+  for (PPStroke *stroke in doc.strokes) {
+    NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
+    PPPointAndPressure *pointAndPressure = enumerator.nextObject;
+    while (pointAndPressure) {
+      PPPointAndPressure *nextPointAndPressure = [enumerator nextObject];
+      if (nextPointAndPressure) {
+        CGPoint p1 = pointAndPressure.point;
+        CGFloat r1 = pointAndPressure.pressure;
+        CGPoint p2 = nextPointAndPressure.point;
+        CGFloat r2 = nextPointAndPressure.pressure;
+        CGContextBeginPath(context);
+        CGContextMoveToPoint(context, p1.x, p1.y);
+        CGContextAddLineToPoint(context, p2.x, p2.y);
+        CGContextSetRGBStrokeColor(context, 0, 0, 0, (r1 + r2) / 2.0);
+        CGContextStrokePath(context);
+      }
+      pointAndPressure = nextPointAndPressure;
+    }
+  }
+}
+
 #pragma mark - Public Methods
 
-- (void)drawRect: (NSRect)rect {
-  [[NSColor whiteColor] set];
-  NSRectFill(rect);
-  
-  [self.strokes enumerateObjectsUsingBlock:
-   ^(PPStroke *stroke, NSUInteger index, BOOL *stop) { [stroke draw]; }];
+- (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
+  [self drawInContext: context];
 }
 
 #pragma mark - Mouse Event Methods
@@ -40,17 +74,33 @@
 - (void)mouseDown: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
-  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView];
-  [self.strokes addObject: newStroke];
-  [self setNeedsDisplay: YES];
+  CGFloat pressure = (CGFloat)event.pressure;
+  NSDate *now = [NSDate date];
+  
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
+  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
+                                                      pressure: pressure
+                                                          date: [now timeIntervalSinceReferenceDate]];
+  [doc.strokes addObject: newStroke];  // changed
+  // [self setNeedsDisplay: YES];
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
-  PPStroke *currentStroke = [self.strokes lastObject];
-  [currentStroke addPoint: locationInView];
-  [self setNeedsDisplay: YES];
+  CGFloat pressure = (CGFloat)event.pressure;
+  NSDate *now = [NSDate date];
+  
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
+  PPStroke *currentStroke = [doc.strokes lastObject];  // changed
+  [currentStroke addPoint: locationInView
+                 pressure: pressure
+                     date: [now timeIntervalSinceReferenceDate]];
+  // [self setNeedsDisplay: YES];
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 #pragma mark - NSView display optimization

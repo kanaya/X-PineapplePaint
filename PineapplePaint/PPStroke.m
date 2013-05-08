@@ -6,31 +6,33 @@
 //  Copyright (c) 2013 Pineapple.cc. All rights reserved.
 //
 
+#import <math.h>
 #import "PPStroke.h"
+#import "PPPointAndPressure.h"
 
 @implementation PPStroke
 
 #pragma mark - Init Methods
 
-- (id)initWithInitialPoint: (NSPoint)initialPoint {
+- (id)initWithInitialPoint: (CGPoint)initialPoint pressure: (CGFloat)initialPressure date: (NSTimeInterval)initialDate {
   self = [super init];
   if (self) {
-    _path = [NSBezierPath bezierPath];
-    
-    [_path moveToPoint: initialPoint];
+    _pointsAndPressures = [NSMutableArray arrayWithCapacity: 1024];
+    PPPointAndPressure *pointAndPressure = [[PPPointAndPressure alloc] initWithPoint: initialPoint
+                                                                            pressure: initialPressure
+                                                                                date: initialDate];
+    [_pointsAndPressures addObject: pointAndPressure];
   }
   return self;
 }
 
 #pragma mark - Public Methods
 
-- (void)addPoint: (NSPoint)point {
-  [self.path lineToPoint: point];
-}
-
-- (void)draw {
-  [[NSColor blackColor] set];
-  [self.path stroke];
+- (void)addPoint: (CGPoint)point pressure: (CGFloat)pressure date: (NSTimeInterval)date {
+  PPPointAndPressure *pointAndPressure = [[PPPointAndPressure alloc] initWithPoint: point
+                                                                          pressure: pressure
+                                                                              date: date];
+  [self.pointsAndPressures addObject: pointAndPressure];
 }
 
 @end

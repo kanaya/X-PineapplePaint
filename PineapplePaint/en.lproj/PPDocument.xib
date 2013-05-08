@@ -34,7 +34,7 @@
 			<object class="NSWindowTemplate" id="275939982">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{133, 235}, {507, 413}}</string>
+				<string key="NSWindowRect">{{133, 235}, {640, 400}}</string>
 				<int key="NSWTFlags">1886912512</int>
 				<string key="NSWindowTitle">Window</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -48,14 +48,15 @@
 						<object class="NSCustomView" id="987095279">
 							<reference key="NSNextResponder" ref="568628114"/>
 							<int key="NSvFlags">268</int>
-							<string key="NSFrameSize">{507, 413}</string>
+							<string key="NSFrameSize">{640, 400}</string>
 							<reference key="NSSuperview" ref="568628114"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:9</string>
 							<string key="NSClassName">PPView</string>
 						</object>
 					</array>
-					<string key="NSFrameSize">{507, 413}</string>
+					<string key="NSFrameSize">{640, 400}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="987095279"/>
@@ -84,6 +85,14 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
+						<string key="label">_viewController</string>
+						<reference key="source" ref="512844837"/>
+						<reference key="destination" ref="347289122"/>
+					</object>
+					<int key="connectionID">100059</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="275939982"/>
 						<reference key="destination" ref="512844837"/>
@@ -105,6 +114,14 @@
 						<reference key="destination" ref="987095279"/>
 					</object>
 					<int key="connectionID">100043</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_document</string>
+						<reference key="source" ref="347289122"/>
+						<reference key="destination" ref="512844837"/>
+					</object>
+					<int key="connectionID">100060</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -140,12 +157,12 @@
 						<int key="objectID">6</int>
 						<reference key="object" ref="568628114"/>
 						<array class="NSMutableArray" key="children">
-							<object class="IBNSLayoutConstraint" id="902504241">
+							<object class="IBNSLayoutConstraint" id="550996124">
 								<reference key="firstItem" ref="987095279"/>
-								<int key="firstAttribute">6</int>
+								<int key="firstAttribute">4</int>
 								<int key="relation">0</int>
 								<reference key="secondItem" ref="568628114"/>
-								<int key="secondAttribute">6</int>
+								<int key="secondAttribute">4</int>
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
 									<double key="value">0.0</double>
@@ -156,12 +173,12 @@
 								<float key="scoringTypeFloat">29</float>
 								<int key="contentType">3</int>
 							</object>
-							<object class="IBNSLayoutConstraint" id="697175549">
+							<object class="IBNSLayoutConstraint" id="902504241">
 								<reference key="firstItem" ref="987095279"/>
-								<int key="firstAttribute">4</int>
+								<int key="firstAttribute">6</int>
 								<int key="relation">0</int>
 								<reference key="secondItem" ref="568628114"/>
-								<int key="secondAttribute">4</int>
+								<int key="secondAttribute">6</int>
 								<float key="multiplier">1</float>
 								<object class="IBLayoutConstant" key="constant">
 									<double key="value">0.0</double>
@@ -230,11 +247,6 @@
 						<reference key="parent" ref="568628114"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">100040</int>
-						<reference key="object" ref="697175549"/>
-						<reference key="parent" ref="568628114"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">100041</int>
 						<reference key="object" ref="902504241"/>
 						<reference key="parent" ref="568628114"/>
@@ -243,6 +255,11 @@
 						<int key="objectID">100042</int>
 						<reference key="object" ref="347289122"/>
 						<reference key="parent" ref="0"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100062</int>
+						<reference key="object" ref="550996124"/>
+						<reference key="parent" ref="568628114"/>
 					</object>
 				</array>
 			</object>
@@ -254,16 +271,16 @@
 				<string key="100027.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100036.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100037.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="100040.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100041.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="100042.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="100062.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.IBWindowTemplateEditedContentRect">{{133, 170}, {507, 413}}</string>
 				<array class="NSMutableArray" key="6.IBNSViewMetadataConstraints">
 					<reference ref="569595447"/>
 					<reference ref="512850327"/>
-					<reference ref="697175549"/>
 					<reference ref="902504241"/>
+					<reference ref="550996124"/>
 				</array>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
@@ -271,7 +288,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">100044</int>
+			<int key="maxID">100062</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -286,6 +303,17 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PPDocument</string>
 					<string key="superclassName">NSDocument</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">_viewController</string>
+						<string key="NS.object.0">NSObject</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">_viewController</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">_viewController</string>
+							<string key="candidateClassName">NSObject</string>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/PPDocument.h</string>
@@ -296,13 +324,13 @@
 					<string key="superclassName">NSView</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">_viewController</string>
-						<string key="NS.object.0">PPViewController</string>
+						<string key="NS.object.0">NSObject</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<string key="NS.key.0">_viewController</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
 							<string key="name">_viewController</string>
-							<string key="candidateClassName">PPViewController</string>
+							<string key="candidateClassName">NSObject</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -313,17 +341,20 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PPViewController</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_view</string>
-						<string key="NS.object.0">PPView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_view</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_view</string>
-							<string key="candidateClassName">PPView</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="_document">NSDocument</string>
+						<string key="_view">NSView</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="_document">
+							<string key="name">_document</string>
+							<string key="candidateClassName">NSDocument</string>
 						</object>
-					</object>
+						<object class="IBToOneOutletInfo" key="_view">
+							<string key="name">_view</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/PPViewController.h</string>
