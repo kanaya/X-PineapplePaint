@@ -49,6 +49,25 @@
   return YES;
 }
 
+#if 0
+- (BOOL)readFromURL: (NSURL *)url ofType: (NSString *)typeName error: (NSError *__autoreleasing *)outError {
+  char readBuffer[1024];
+  NSString *filename = [url path];
+  FILE *f = fopen([filename UTF8String], "r");
+  // assert f != NULL
+  while (fgets(readBuffer, 1024, f) != NULL) {
+    if (readBuffer[0] != '\0') {
+      float t, px, py, r;
+      sscanf(readBuffer, "%f %f %f %f\n", &t, &px, &py, &r);
+      // ...
+    }
+
+  }
+  fclose(f);
+  return YES;
+}
+#endif
+
 - (BOOL)readFromData: (NSData *)data ofType: (NSString *)typeName error: (NSError **)outError {
   // Insert code here to read your document from the given data of the specified type. If outError != NULL, ensure that you create and set an appropriate error when returning NO.
   // You can also choose to override -readFromFileWrapper:ofType:error: or -readFromURL:ofType:error: instead.

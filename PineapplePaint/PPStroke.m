@@ -14,25 +14,19 @@
 
 #pragma mark - Init Methods
 
-- (id)initWithInitialPoint: (CGPoint)initialPoint pressure: (CGFloat)initialPressure date: (NSTimeInterval)initialDate {
+- (id)init {
   self = [super init];
   if (self) {
     _pointsAndPressures = [NSMutableArray arrayWithCapacity: 1024];
-    PPPointAndPressure *pointAndPressure = [[PPPointAndPressure alloc] initWithPoint: initialPoint
-                                                                            pressure: initialPressure
-                                                                                date: initialDate];
-    [_pointsAndPressures addObject: pointAndPressure];
   }
   return self;
 }
 
 #pragma mark - Public Methods
 
-- (void)addPoint: (CGPoint)point pressure: (CGFloat)pressure date: (NSTimeInterval)date {
-  PPPointAndPressure *pointAndPressure = [[PPPointAndPressure alloc] initWithPoint: point
-                                                                          pressure: pressure
-                                                                              date: date];
+- (id)addPointAndPressure: (PPPointAndPressure *)pointAndPressure {
   [self.pointsAndPressures addObject: pointAndPressure];
+  return self;
 }
 
 @end

@@ -17,9 +17,7 @@
 @property CALayer *backgroundLayer;
 @end
 
-@implementation PPView {
-//   CALayer *backgroundLayer;  // should be anonymous category
-}
+@implementation PPView
 
 #pragma mark - Init Methods
 
@@ -79,11 +77,11 @@
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
-                                                      pressure: pressure
-                                                          date: [now timeIntervalSinceReferenceDate]];
-  [doc.strokes addObject: newStroke];  // changed
-  // [self setNeedsDisplay: YES];
+  PPStroke *newStroke = [[PPStroke alloc] init];
+  [newStroke addPointAndPressure: [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                                                   pressure: pressure
+                                                                       date: [now timeIntervalSinceReferenceDate]]];
+  [doc.strokes addObject: newStroke];
   [self.backgroundLayer setNeedsDisplay];
 }
 
@@ -95,11 +93,10 @@
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  PPStroke *currentStroke = [doc.strokes lastObject];  // changed
-  [currentStroke addPoint: locationInView
-                 pressure: pressure
-                     date: [now timeIntervalSinceReferenceDate]];
-  // [self setNeedsDisplay: YES];
+  PPStroke *currentStroke = [doc.strokes lastObject];
+  [currentStroke addPointAndPressure: [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                                                       pressure: pressure
+                                                                           date: [now timeIntervalSinceReferenceDate]]];
   [self.backgroundLayer setNeedsDisplay];
 }
 
