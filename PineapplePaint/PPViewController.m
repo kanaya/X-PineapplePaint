@@ -17,8 +17,8 @@
   return _document;
 }
 
-- (void)requestRedraw {
-  [(PPView *)_view requestRedraw];
+- (void)requestRedraw: (id)sender {
+  [(PPView *)_view requestRedraw: sender];
 }
 
 @end
