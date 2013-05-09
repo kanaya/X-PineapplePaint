@@ -37,15 +37,22 @@
 
 #pragma mark - Public Methods
 
-// to be removed
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
   for (CALayer *layer in self.backgroundLayer.sublayers) {
     [layer setNeedsDisplay];
   }
 }
 
-// to be removed
-- (void)requestRedraw {
+- (void)requestRedraw: (id)sender {
+  NSArray *strokes = ((PPDocument *)sender).strokes;
+  // remove all sublayers from backgroundLayer
+  for (PPStroke *stroke in strokes) {
+    CALayer *layer = [CALayer layer];
+    layer.frame = (CGRect)self.frame;
+    layer.delegate = stroke;
+    [self.backgroundLayer addSublayer: layer];
+    // [layer setNeedsDisplay];
+  }
   [self.backgroundLayer setNeedsDisplay];
 }
 
