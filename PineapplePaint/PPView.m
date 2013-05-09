@@ -15,6 +15,7 @@
 
 @interface PPView ()
 @property CALayer *backgroundLayer;
+@property CALayer *currentLayer;
 @end
 
 @implementation PPView
@@ -30,22 +31,20 @@
     CGColorRelease(white);
     _backgroundLayer.delegate = self;
     [self setLayer: _backgroundLayer];
-    // [self setWantsLayer: YES];
   }
   return self;
 }
 
 #pragma mark - Public Methods
 
+// to be removed
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
-  PPViewController *vc = (PPViewController *)_viewController;
-  PPDocument *doc = (PPDocument *)[vc document];
-  for (PPStroke *stroke in doc.strokes) {  // should use block
-    [stroke drawLayer: layer // self.backgroundLayer
-            inContext: context];
+  for (CALayer *layer in self.backgroundLayer.sublayers) {
+    [layer setNeedsDisplay];
   }
 }
 
+// to be removed
 - (void)requestRedraw {
   [self.backgroundLayer setNeedsDisplay];
 }
@@ -53,10 +52,10 @@
 #pragma mark - Mouse Event Methods
 
 - (void)mouseDown: (NSEvent *)event {
+  NSDate *now = [NSDate date];
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
   CGFloat pressure = (CGFloat)event.pressure;
-  NSDate *now = [NSDate date];
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
@@ -66,7 +65,11 @@
                                     pressure: pressure
                                         date: [now timeIntervalSinceReferenceDate]]];
   [doc.strokes addObject: newStroke];
-  [self requestRedraw];
+
+  self.currentLayer = [CALayer layer];
+  self.currentLayer.frame = (CGRect)self.frame;  // DON'T FORGET SETTING FRAME
+  self.currentLayer.delegate = newStroke;
+  [self.backgroundLayer addSublayer: self.currentLayer];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
@@ -82,7 +85,7 @@
    [[PPPointAndPressure alloc] initWithPoint: locationInView
                                     pressure: pressure
                                         date: [now timeIntervalSinceReferenceDate]]];
-  [self requestRedraw];
+  [self.currentLayer setNeedsDisplay];
 }
 
 #pragma mark - NSView display optimization
