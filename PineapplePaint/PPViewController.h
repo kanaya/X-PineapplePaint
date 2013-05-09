@@ -14,6 +14,6 @@
 }
 
 - (NSDocument *)document;
-- (void)requestRedraw;
+- (void)requestRedraw: (id)sender;
 
 @end

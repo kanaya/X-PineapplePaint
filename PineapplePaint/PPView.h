@@ -12,6 +12,6 @@
   IBOutlet NSObject *_viewController;
 }
 
-- (void)requestRedraw;
+- (void)requestRedraw: (id)sender;
 
 @end
