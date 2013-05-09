@@ -15,11 +15,10 @@
 
 @interface PPView ()
 @property CALayer *backgroundLayer;
+@property CALayer *currentLayer;
 @end
 
-@implementation PPView {
-//   CALayer *backgroundLayer;  // should be anonymous category
-}
+@implementation PPView
 
 #pragma mark - Init Methods
 
@@ -32,59 +31,52 @@
     CGColorRelease(white);
     _backgroundLayer.delegate = self;
     [self setLayer: _backgroundLayer];
-    [self setWantsLayer: YES];
   }
   return self;
-}
-
-#pragma mark - Private Methods
-
-- (void)drawInContext: (CGContextRef)context {
-  PPViewController *vc = (PPViewController *)_viewController;
-  PPDocument *doc = (PPDocument *)[vc document];
-  for (PPStroke *stroke in doc.strokes) {
-    NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
-    PPPointAndPressure *pointAndPressure = enumerator.nextObject;
-    while (pointAndPressure) {
-      PPPointAndPressure *nextPointAndPressure = [enumerator nextObject];
-      if (nextPointAndPressure) {
-        CGPoint p1 = pointAndPressure.point;
-        CGFloat r1 = pointAndPressure.pressure;
-        CGPoint p2 = nextPointAndPressure.point;
-        CGFloat r2 = nextPointAndPressure.pressure;
-        CGContextBeginPath(context);
-        CGContextMoveToPoint(context, p1.x, p1.y);
-        CGContextAddLineToPoint(context, p2.x, p2.y);
-        CGContextSetRGBStrokeColor(context, 0, 0, 0, (r1 + r2) / 2.0);
-        CGContextStrokePath(context);
-      }
-      pointAndPressure = nextPointAndPressure;
-    }
-  }
 }
 
 #pragma mark - Public Methods
 
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
-  [self drawInContext: context];
+  for (CALayer *layer in self.backgroundLayer.sublayers) {
+    [layer setNeedsDisplay];
+  }
+}
+
+- (void)requestRedraw: (id)sender {
+  NSArray *strokes = ((PPDocument *)sender).strokes;
+  // remove all sublayers from backgroundLayer
+  for (PPStroke *stroke in strokes) {
+    CALayer *layer = [CALayer layer];
+    layer.frame = (CGRect)self.frame;
+    layer.delegate = stroke;
+    [self.backgroundLayer addSublayer: layer];
+    // [layer setNeedsDisplay];
+  }
+  [self.backgroundLayer setNeedsDisplay];
 }
 
 #pragma mark - Mouse Event Methods
 
 - (void)mouseDown: (NSEvent *)event {
+  NSDate *now = [NSDate date];
   NSPoint locationInView = [self convertPoint: event.locationInWindow
                                      fromView: nil];
   CGFloat pressure = (CGFloat)event.pressure;
-  NSDate *now = [NSDate date];
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  PPStroke *newStroke = [[PPStroke alloc] initWithInitialPoint: locationInView
-                                                      pressure: pressure
-                                                          date: [now timeIntervalSinceReferenceDate]];
-  [doc.strokes addObject: newStroke];  // changed
-  // [self setNeedsDisplay: YES];
-  [self.backgroundLayer setNeedsDisplay];
+  PPStroke *newStroke = [[PPStroke alloc] init];
+  [newStroke addPointAndPressure:
+   [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                    pressure: pressure
+                                        date: [now timeIntervalSinceReferenceDate]]];
+  [doc.strokes addObject: newStroke];
+
+  self.currentLayer = [CALayer layer];
+  self.currentLayer.frame = (CGRect)self.frame;  // DON'T FORGET SETTING FRAME
+  self.currentLayer.delegate = newStroke;
+  [self.backgroundLayer addSublayer: self.currentLayer];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
@@ -95,12 +87,12 @@
   
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
-  PPStroke *currentStroke = [doc.strokes lastObject];  // changed
-  [currentStroke addPoint: locationInView
-                 pressure: pressure
-                     date: [now timeIntervalSinceReferenceDate]];
-  // [self setNeedsDisplay: YES];
-  [self.backgroundLayer setNeedsDisplay];
+  PPStroke *currentStroke = [doc.strokes lastObject];
+  [currentStroke addPointAndPressure:
+   [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                    pressure: pressure
+                                        date: [now timeIntervalSinceReferenceDate]]];
+  [self.currentLayer setNeedsDisplay];
 }
 
 #pragma mark - NSView display optimization
