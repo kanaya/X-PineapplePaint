@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PPPointAndPressure.h"
 
 @interface PPStroke: NSObject
 @property NSMutableArray *pointsAndPressures;
-- (id)initWithInitialPoint: (CGPoint)initialPoint
-                  pressure: (CGFloat)initialPressure
-                      date: (NSTimeInterval)initialDate;
-- (void)addPoint: (CGPoint)point pressure: (CGFloat)pressure date: (NSTimeInterval)date;
+- (id)init;
+- (id)addPointAndPressure: (PPPointAndPressure *)pp;
 @end

@@ -14,5 +14,6 @@
 }
 
 - (NSDocument *)document;
+- (void)requestRedraw;
 
 @end
