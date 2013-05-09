@@ -17,6 +17,7 @@
   self = [super init];
   if (self) {
     self.strokes = [NSMutableArray arrayWithCapacity: 1024];
+    _isEdited = NO;
   }
   return self;
 }
@@ -34,6 +35,10 @@
   return YES;
 }
 
+- (BOOL)isDocumentEdited {
+  return self.isEdited;
+}
+
 - (BOOL)writeToURL: (NSURL *)url ofType: (NSString *)typeName error: (NSError *__autoreleasing *)outError {
   NSString *filename = [url path];
   FILE *f = fopen([filename UTF8String], "w");
@@ -48,6 +53,7 @@
       fputc('\n', f);
     }
     fclose(f);
+    self.isEdited = NO;
     return YES;
   }
   else {
@@ -86,6 +92,7 @@
       [self.strokes addObject: stroke];
     }
     fclose(f);
+    self.isEdited = NO;
     return YES;
   }
   else {

@@ -12,5 +12,6 @@
   IBOutlet NSObject *_viewController;
 }
 @property NSMutableArray *strokes;
+@property BOOL isEdited;
 
 @end
