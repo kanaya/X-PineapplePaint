@@ -13,4 +13,7 @@
 @property NSMutableArray *pointsAndPressures;
 - (id)init;
 - (id)addPointAndPressure: (PPPointAndPressure *)pp;
+- (BOOL)cached;
+- (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context;
+  // should be in a category?
 @end

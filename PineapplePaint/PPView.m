@@ -30,41 +30,20 @@
     CGColorRelease(white);
     _backgroundLayer.delegate = self;
     [self setLayer: _backgroundLayer];
-    [self setWantsLayer: YES];
+    // [self setWantsLayer: YES];
   }
   return self;
-}
-
-#pragma mark - Private Methods
-
-- (void)drawInContext: (CGContextRef)context {
-  PPViewController *vc = (PPViewController *)_viewController;
-  PPDocument *doc = (PPDocument *)[vc document];
-  for (PPStroke *stroke in doc.strokes) {
-    NSEnumerator *enumerator = stroke.pointsAndPressures.objectEnumerator;
-    PPPointAndPressure *pointAndPressure = enumerator.nextObject;
-    while (pointAndPressure) {
-      PPPointAndPressure *nextPointAndPressure = [enumerator nextObject];
-      if (nextPointAndPressure) {
-        CGPoint p1 = pointAndPressure.point;
-        CGFloat r1 = pointAndPressure.pressure;
-        CGPoint p2 = nextPointAndPressure.point;
-        CGFloat r2 = nextPointAndPressure.pressure;
-        CGContextBeginPath(context);
-        CGContextMoveToPoint(context, p1.x, p1.y);
-        CGContextAddLineToPoint(context, p2.x, p2.y);
-        CGContextSetRGBStrokeColor(context, 0, 0, 0, (r1 + r2) / 2.0);
-        CGContextStrokePath(context);
-      }
-      pointAndPressure = nextPointAndPressure;
-    }
-  }
 }
 
 #pragma mark - Public Methods
 
 - (void)drawLayer: (CALayer *)layer inContext: (CGContextRef)context {
-  [self drawInContext: context];
+  PPViewController *vc = (PPViewController *)_viewController;
+  PPDocument *doc = (PPDocument *)[vc document];
+  for (PPStroke *stroke in doc.strokes) {  // should use block
+    [stroke drawLayer: layer // self.backgroundLayer
+            inContext: context];
+  }
 }
 
 - (void)requestRedraw {
@@ -82,11 +61,12 @@
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
   PPStroke *newStroke = [[PPStroke alloc] init];
-  [newStroke addPointAndPressure: [[PPPointAndPressure alloc] initWithPoint: locationInView
-                                                                   pressure: pressure
-                                                                       date: [now timeIntervalSinceReferenceDate]]];
+  [newStroke addPointAndPressure:
+   [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                    pressure: pressure
+                                        date: [now timeIntervalSinceReferenceDate]]];
   [doc.strokes addObject: newStroke];
-  [self.backgroundLayer setNeedsDisplay];
+  [self requestRedraw];
 }
 
 - (void)mouseDragged: (NSEvent *)event {
@@ -98,10 +78,11 @@
   PPViewController *vc = (PPViewController *)_viewController;
   PPDocument *doc = (PPDocument *)[vc document];
   PPStroke *currentStroke = [doc.strokes lastObject];
-  [currentStroke addPointAndPressure: [[PPPointAndPressure alloc] initWithPoint: locationInView
-                                                                       pressure: pressure
-                                                                           date: [now timeIntervalSinceReferenceDate]]];
-  [self.backgroundLayer setNeedsDisplay];
+  [currentStroke addPointAndPressure:
+   [[PPPointAndPressure alloc] initWithPoint: locationInView
+                                    pressure: pressure
+                                        date: [now timeIntervalSinceReferenceDate]]];
+  [self requestRedraw];
 }
 
 #pragma mark - NSView display optimization

@@ -89,6 +89,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF4E122F173B4BF0001600A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BF7465EC1737D3780082119D /* PPPointAndPressure.h */,
+				BF7465ED1737D3780082119D /* PPPointAndPressure.m */,
+				BFCB2F0F172E3BEA00EDCC88 /* PPStroke.h */,
+				BFCB2F10172E3BEA00EDCC88 /* PPStroke.m */,
+				BFCB2EE4172E306000EDCC88 /* PPDocument.h */,
+				BFCB2EE5172E306000EDCC88 /* PPDocument.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		BF4E1230173B4BFB001600A8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				BFCB2F0C172E312B00EDCC88 /* PPViewController.h */,
+				BFCB2F0D172E312B00EDCC88 /* PPViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		BF4E1231173B4C18001600A8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BFCB2EE7172E306000EDCC88 /* PPDocument.xib */,
+				BFCB2F09172E310300EDCC88 /* PPView.h */,
+				BFCB2F0A172E310300EDCC88 /* PPView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		BFCB2EC6172E306000EDCC88 = {
 			isa = PBXGroup;
 			children = (
@@ -132,17 +164,9 @@
 		BFCB2ED8172E306000EDCC88 /* PineapplePaint */ = {
 			isa = PBXGroup;
 			children = (
-				BF7465EC1737D3780082119D /* PPPointAndPressure.h */,
-				BF7465ED1737D3780082119D /* PPPointAndPressure.m */,
-				BFCB2F0F172E3BEA00EDCC88 /* PPStroke.h */,
-				BFCB2F10172E3BEA00EDCC88 /* PPStroke.m */,
-				BFCB2F09172E310300EDCC88 /* PPView.h */,
-				BFCB2F0A172E310300EDCC88 /* PPView.m */,
-				BFCB2F0C172E312B00EDCC88 /* PPViewController.h */,
-				BFCB2F0D172E312B00EDCC88 /* PPViewController.m */,
-				BFCB2EE4172E306000EDCC88 /* PPDocument.h */,
-				BFCB2EE5172E306000EDCC88 /* PPDocument.m */,
-				BFCB2EE7172E306000EDCC88 /* PPDocument.xib */,
+				BF4E1231173B4C18001600A8 /* View */,
+				BF4E1230173B4BFB001600A8 /* Controller */,
+				BF4E122F173B4BF0001600A8 /* Model */,
 				BFCB2EEA172E306000EDCC88 /* MainMenu.xib */,
 				BFCB2ED9172E306000EDCC88 /* Supporting Files */,
 			);
