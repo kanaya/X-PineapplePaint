@@ -27,7 +27,7 @@
 
 - (void)windowControllerDidLoadNib: (NSWindowController *)aController {
   [super windowControllerDidLoadNib: aController];
-  [(PPViewController *)_viewController requestRedraw];
+  [(PPViewController *)_viewController requestRedraw: self];
 }
 
 + (BOOL)autosavesInPlace {
