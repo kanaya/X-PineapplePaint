@@ -72,7 +72,8 @@
                                     pressure: pressure
                                         date: [now timeIntervalSinceReferenceDate]]];
   [doc.strokes addObject: newStroke];
-
+  doc.isEdited = YES;
+  
   self.currentLayer = [CALayer layer];
   self.currentLayer.frame = (CGRect)self.frame;  // DON'T FORGET SETTING FRAME
   self.currentLayer.delegate = newStroke;
